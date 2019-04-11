@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int main () {
+    
+
+/*-------Rotation Encryption/Decryption Cipher (Given key)-------*/
+
+int i; int command;  char text[100]; int key;
+char string[100];
+
+printf("Enter line of text:\n");
+fgets(string, 100, stdin); //reads the line of text and stores it in a string
+
+
+printf("Encrypt or Decrypt: %s\n", string);
+printf("1 = Encrypt\n");
+printf("2 = Decrypt\n");
+scanf("%d", &command);
+printf("Enter the 'Key' for Encryption/Decryption:\n ");
+scanf("%d", &key);
+
+switch(command) {  
+case 1: 
+   for(i = 0; (i < 100 && string[i] != '\0'); i++)
+   string[i] = string[i] + key; 
+   
+   printf("Encrypted text: %s\n", string);
+   break;
+case 2:
+   for(i = 0; (i < 100 && string[i] != '\0'); i++)
+   string[i] = string[i] - key;
+   
+   printf("Decrypted text: %s\n", string);
+   break; 
+default:
+    printf("illegel operation '%d\n'", command);
+}
+
+/*------Substitution Encryption/Decryption Cipher (Given Alphabet Substition)-----*/
+
+
+
+}
