@@ -1,0 +1,209 @@
+#include <stdio.h>
+
+int main() {
+
+int type;    
+
+printf("Test 'Rotation Cipher' or 'Substitution Cipher'?\n");
+printf("Rotation = 1\nSubstitution = 2\n");
+scanf("%d", &type);
+getchar();
+
+/*-------Rotation Encryption/Decryption Cipher (Given key)-------*/
+if(type == 1) {
+
+     int i; int command; int key;
+     char Rstring[100];
+
+     printf("Enter line of text:\n");
+     fgets(Rstring, 100, stdin); //reads the line of text and stores it in a string
+
+
+     printf("Encrypt or Decrypt: %s\n", Rstring);
+     printf("1 = Encrypt\n");
+     printf("2 = Decrypt\n");
+     scanf("%d", &command);
+     printf("Enter the 'Key' for Encryption/Decryption:\n ");
+     scanf("%d", &key);
+
+      switch(command) {  
+        case 1: 
+          for(i = 0; (i < 100 && Rstring[i] != '\0'); i++)
+             if(Rstring[i]>=65 && Rstring[i]<=90)  {    //Loop statement to only rotate between A-Z
+               Rstring[i] = Rstring[i] + key;  }
+   
+               printf("Encrypted text: %s\n", Rstring);
+   
+         break;
+        case 2:
+          for(i = 0; (i < 100 && Rstring[i] != '\0'); i++)
+            if(Rstring[i]>=65 && Rstring[i]<=90)  {
+              Rstring[i] = Rstring[i] - key; }
+   
+              printf("Decrypted text: %s\n", Rstring);
+         break; 
+         default:
+           printf("illegel operation '%d\n'", command);
+                    }
+
+}
+/*------------Substitution Cipher (Cipher text given)--------*/
+
+else if(type == 2) {  
+    
+    int x;
+    
+     printf("Encrypt or Decrypt?\n");
+     printf("1 = Encrypt\n");
+     printf("2 = Decrypt\n");
+     scanf("%d", &x);
+     getchar();
+     
+     
+    if (x == 1) {
+     char str[100];
+     char ciph[100];
+     int i; 
+     
+
+     printf("Enter the cipher assignments\n");
+     fgets(ciph, 100, stdin);
+     
+     printf("Enter a string:\n");
+     fgets(str, 100, stdin);
+
+  for(i=0; i<100; i++) {
+    if(str[i]>=65 && str[i]<=90) {    
+     switch( str[i]) {
+        case 65: str[i] = ciph[0]; 
+        break;
+        case 66: str[i] = ciph[1];
+        break;
+        case 67: str[i] = ciph[2]; 
+        break;
+        case 68: str[i] = ciph[3];
+        break; 
+        case 69: str[i] = ciph[4]; 
+        break;
+        case 70: str[i] = ciph[5];
+        break;
+        case 71: str[i] = ciph[6]; 
+        break;
+        case 72: str[i] = ciph[7];
+        break; 
+        case 73: str[i] = ciph[8]; 
+        break;
+        case 74: str[i] = ciph[9];
+        break;
+        case 75: str[i] = ciph[10]; 
+        break;
+        case 76: str[i] = ciph[11];
+        break; 
+        case 77: str[i] = ciph[12]; 
+        break;
+        case 78: str[i] = ciph[13];
+        break;
+        case 79: str[i] = ciph[14]; 
+        break;
+        case 80: str[i] = ciph[15];
+        break; 
+        case 81: str[i] = ciph[16]; 
+        break;
+        case 82: str[i] = ciph[17];
+        break; 
+        case 83: str[i] = ciph[18]; 
+        break;
+        case 84: str[i] = ciph[19];
+        break;
+        case 85: str[i] = ciph[20]; 
+        break;
+        case 86: str[i] = ciph[21];
+        break; 
+        case 87: str[i] = ciph[22]; 
+        break;
+        case 88: str[i] = ciph[23];
+        break;
+        case 89: str[i] = ciph[24]; 
+        break;
+        case 90: str[i] = ciph[25];
+        break; 
+                       }
+              }
+      }
+            printf("Encrypted String: %s\n", str); 
+      }
+    
+    else if(x == 2) {
+    
+     char str[100];
+     char ciph[100];
+     int i; 
+     
+     printf("Enter a string:\n");
+     fgets(str, 100, stdin);
+
+     printf("Enter the cipher assignments\n");
+     fgets(ciph, 100, stdin);
+
+  for(i=0; i<100; i++) {
+    if(str[i]>=65 && str[i]<=90) {    
+       if(str[i] == ciph[0]) 
+          str[i] = 65; 
+       else if (str[i] == ciph[1])
+          str[i] = 66;
+       else if (str[i] == ciph[2])
+          str[i] = 67;
+       else if (str[i] == ciph[3])
+          str[i] = 68;
+       else if (str[i] == ciph[4])
+          str[i] = 69;
+       else if (str[i] == ciph[5])
+          str[i] = 70;
+       else if (str[i] == ciph[6])
+          str[i] = 71;
+       else if (str[i] == ciph[7])
+          str[i] = 72;
+       else if (str[i] == ciph[8])
+          str[i] = 73;
+       else if (str[i] == ciph[9])
+          str[i] = 74;
+       else if (str[i] == ciph[10])
+          str[i] = 75;
+       else if (str[i] == ciph[11])
+          str[i] = 76;
+       else if (str[i] == ciph[12])
+          str[i] = 77;
+       else if (str[i] == ciph[13])
+          str[i] = 78;
+       else if (str[i] == ciph[14])
+          str[i] = 79;
+       else if (str[i] == ciph[15])
+          str[i] = 80;
+       else if (str[i] == ciph[16])
+          str[i] = 81;
+       else if (str[i] == ciph[17])
+          str[i] = 82;
+       else if (str[i] == ciph[18])
+          str[i] = 83;
+       else if (str[i] == ciph[19])
+          str[i] = 84;
+       else if (str[i] == ciph[20])
+          str[i] = 85;
+       else if (str[i] == ciph[21])
+          str[i] = 86;
+       else if (str[i] == ciph[22])
+          str[i] = 87;
+       else if (str[i] == ciph[23])
+          str[i] = 88;
+       else if (str[i] == ciph[24])
+          str[i] = 89;
+       else if (str[i] == ciph[25])
+          str[i] = 90;
+                      }
+                }
+          printf("Decrypted String: %s\n", str); 
+      }
+}
+
+return 0; 
+}
