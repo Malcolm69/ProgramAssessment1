@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+
+int main () {
+char string[100];
+int i;
+int key = 1;
+
+
+printf("Enter encrypted text:\n");
+fgets(string, 100, stdin);
+while(key <= 26) {
+    for(i = 0; (i < 100 && string[i] != '\0'); i++) {
+      if(string[i]>=65 && string[i]<=90)  {
+       string[i] = ((string[i] - 90) + key) % 26 + 90;
+      }
+    }
+   printf("Decrypted text: %s\n", string);
+
+}
+return 0;
+}
+     
+      
