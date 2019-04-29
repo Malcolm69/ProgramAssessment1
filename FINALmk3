@@ -1,0 +1,250 @@
+#include <stdio.h>
+
+int main() {
+
+int type;  //declare variable -> this stores the input from user which choses substitution or rotation cipher.  
+
+printf("Test 'Rotation Cipher' or 'Substitution Cipher'?\n"); //prints text in "" to console
+printf("Rotation = 1\nSubstitution = 2\n");
+scanf("%d", &type); //above, the variable "type" was declared as an integer. Using scanf, we take the value entered by the user
+                     //in the console after the printf statement and assign it to type.
+getchar();       //clears input buffer from user entering previous input. Without this, program would later read <enter> resulting in
+                  //in it 'skipping' user input 
+
+/*-------Rotation Encryption/Decryption Cipher (Given key)-------*/
+if(type == 1) { //statement with condition, will only execute below if user entered 1 to choose rotation cipher. 
+
+     int i; int command; int key;  //variable to store the amount of shifts for the cipher
+     char Rstring[100];    //this variable will store the message to be encrypted/deciphered. 
+     int keyUNKOWN = 1;    //this is the variable used for the bruteforce attack, initialised to 1.
+     char string[100];
+     int x = 1; //used to count loops for brute force attack, limited to 26 in a condition below.
+     
+
+     printf("Enter line of text:\n");
+     fgets(Rstring, 100, stdin); //reads the line of text and stores it in a string. fgets can store multiple words unlike scanf.
+
+
+     printf("Encrypt or Decrypt: %s\n", Rstring); //prints to console, addition of "%s\n, Rstring" puts the users inputted message in aswell
+                                                   //and creates a new line for the next console output
+     printf("1 = Encrypt\n");
+     printf("2 = Decrypt\n");
+     printf("3 = Decrypt without key\n");
+     scanf("%d", &command); //reads users input 1,2 or 3 (integer values) and assigns it to command. 
+
+
+      switch(command) {  //this will determine whether message is decrypted or encrypted. eg Case 1 if command is assigned value of 1.
+        case 1: 
+         printf("Enter the 'Key' for Encryption/Decryption:\n ");
+         scanf("%d", &key);
+          for(i = 0; (i < 100 && Rstring[i] != '\0'); i++)   //loop, i tracks amount of loops, initial 0. next is the condition, loop is limited to 
+                                                            //100 loops and the string must not have a NULL value. i++ increments i after loop completes
+             if(Rstring[i]>=65 && Rstring[i]<=90)  {    //Loop statement to only rotate between A-Z
+               Rstring[i] = ((Rstring[i] - 65) + key) % 26 + 65;          //changes entered string to a string incremented by 'key' amount of ASCII values. 
+                                                    }    //this is done for each consecutive character in the string until a null, eg end of the string. 
+               printf("Encrypted text: %s\n", Rstring);   //prints encrypted text. %s is used for strings. 
+   
+         break;
+        case 2:  //case 2, eg if command is assigned 2. Decryption case. 
+         printf("Enter the 'Key' for Encryption/Decryption:\n ");
+         scanf("%d", &key);
+          for(i = 0; (i < 100 && Rstring[i] != '\0'); i++)        //pretty much the same as case 1/
+            if(Rstring[i]>=65 && Rstring[i]<=90)  {
+              Rstring[i] = ((Rstring[i] - 65) - key) % 26 + 65;    //instead, decryption minuses key shifts. 
+                                                   }
+              printf("Decrypted text: %s\n", Rstring);
+         break; 
+        case 3:  /*Case 3 is selected for the brute force attack (decrypting the message without a key) As there is only 26 possible 
+                  rotations with the ceaser cipher, it is easy to just test each possibility and look for the decrypted text. 
+                  This loop increases each consecutive element in the string by 1 then after it reaches a null ie end of the string
+                  it restarts, effectively shifting it 2 ASCII characters the next loop etc. */
+                  
+
+          while(x<=26) {  //This condition limits the printed texts to 26
+            for(i = 0; (i < 100 && Rstring[i] != '\0'); i++) {
+               if(Rstring[i]>=65 && Rstring[i]<=90)  {
+                 Rstring[i] = ((Rstring[i] - 65) + keyUNKOWN) % 26 + 65; //this is the code responsible for shifting the elements of the string
+                                                                           //it involves an ASCII loop so once it reaches A, it loops to Z instead of going to 
+                                                                           //ASCII characters prior to 65 such as "{" and "/". 
+                                                                           //we minus 65 to bring the range to 0 to 25. 
+                                                                           //the character is then incremented 1 using "+keyUNKOWN"
+                                                                           //modulus (%) 26 then wraps and plus 65 to bring ASCII characters back.
+                                                      }
+                                                              }
+          printf("Decrypted text: %s\n", Rstring);
+          x++;
+                       }
+          break; //breaks are required at the end of swtich statements. 
+         default:  //this is triggered if the user doesnt type in 1 or 2. 
+           printf("illegel operation '%d\n'", command); 
+                       }
+
+                  }
+/*------------Substitution Cipher (Cipher text given)--------*/
+
+else if(type == 2) {  
+    
+    int x;
+    
+     printf("Encrypt or Decrypt?\n");   //acts as menu io for what to do 
+     printf("1 = Encrypt\n");
+     printf("2 = Decrypt\n");
+     scanf("%d", &x);  //scans user inout, either 1 or 2 and assigns it to x.
+     getchar();  //clears input buffer
+     
+     
+    if (x == 1) {   //condition statement. if x is equal to 1 from input, this code will execute. (== is used for EQUALS)
+     char str[100];  //character string for message
+     char ciph[100]; //character string for the substitions of alphabet used for cipher.
+     int i; 
+     
+
+     printf("Enter the cipher assignments\n");
+     fgets(ciph, 100, stdin); //cipher characters are storned in an array (string in this case)
+     
+     printf("Enter a string:\n");
+     fgets(str, 100, stdin);
+
+  for(i=0; i<100; i++) {    //this is a loop
+    if(str[i]>=65 && str[i]<=90) {    //this condition will only encrypt letters from A to Z. eg no spaces in text will be changed. 
+    
+    /*Below is the main chunk of code wich is responsible for encrpyting message. They are 26 individual cases for each letter from A to Z
+    that will execute the code within the switch case e.g " str[i] = ciph[0] " thus, if the first letter of the message is detected as
+  an M, it will be changed to the first element of the cipher string. */
+     switch( str[i]) {        
+        case 65: str[i] = ciph[0]; 
+        break;
+        case 66: str[i] = ciph[1];
+        break;
+        case 67: str[i] = ciph[2]; 
+        break;
+        case 68: str[i] = ciph[3];
+        break; 
+        case 69: str[i] = ciph[4]; 
+        break;
+        case 70: str[i] = ciph[5];
+        break;
+        case 71: str[i] = ciph[6]; 
+        break;
+        case 72: str[i] = ciph[7];
+        break; 
+        case 73: str[i] = ciph[8]; 
+        break;
+        case 74: str[i] = ciph[9];
+        break;
+        case 75: str[i] = ciph[10]; 
+        break;
+        case 76: str[i] = ciph[11];
+        break; 
+        case 77: str[i] = ciph[12]; 
+        break;
+        case 78: str[i] = ciph[13];
+        break;
+        case 79: str[i] = ciph[14]; 
+        break;
+        case 80: str[i] = ciph[15];
+        break; 
+        case 81: str[i] = ciph[16]; 
+        break;
+        case 82: str[i] = ciph[17];
+        break; 
+        case 83: str[i] = ciph[18]; 
+        break;
+        case 84: str[i] = ciph[19];
+        break;
+        case 85: str[i] = ciph[20]; 
+        break;
+        case 86: str[i] = ciph[21];
+        break; 
+        case 87: str[i] = ciph[22]; 
+        break;
+        case 88: str[i] = ciph[23];
+        break;
+        case 89: str[i] = ciph[24]; 
+        break;
+        case 90: str[i] = ciph[25];
+        break; 
+                     }
+                                   }
+                         }
+            printf("Encrypted String: %s\n", str); //after the code loops for each consecutive element of the string, the encrypted
+                                                   //string is printed. 
+                 }
+    
+    else if(x == 2) {      //condition, if user assignes 2 to x, then decrpytion will occur
+    
+     char str[100];    //character string stores encrypted message
+     char ciph[100];      //cipher assignments
+     int i; 
+     
+     printf("Enter a string:\n");
+     fgets(str, 100, stdin);
+
+     printf("Enter the cipher assignments\n");
+     fgets(ciph, 100, stdin);
+
+  for(i=0; i<100; i++) {
+    if(str[i]>=65 && str[i]<=90) {    
+/*Below block of if and else if statements will loop for each consecutive character of the encrypted string. 
+eg. if the first element of the string is detected as a G and that is equal "==" to the 4th element of the cipher substitutions 
+then G will be changed to ASCII 69, which would be D. */
+       if(str[i] == ciph[0]) 
+          str[i] = 65; 
+       else if (str[i] == ciph[1])
+          str[i] = 66;
+       else if (str[i] == ciph[2])
+          str[i] = 67;
+       else if (str[i] == ciph[3])
+          str[i] = 68;
+       else if (str[i] == ciph[4])
+          str[i] = 69;
+       else if (str[i] == ciph[5])
+          str[i] = 70;
+       else if (str[i] == ciph[6])
+          str[i] = 71;
+       else if (str[i] == ciph[7])
+          str[i] = 72;
+       else if (str[i] == ciph[8])
+          str[i] = 73;
+       else if (str[i] == ciph[9])
+          str[i] = 74;
+       else if (str[i] == ciph[10])
+          str[i] = 75;
+       else if (str[i] == ciph[11])
+          str[i] = 76;
+       else if (str[i] == ciph[12])
+          str[i] = 77;
+       else if (str[i] == ciph[13])
+          str[i] = 78;
+       else if (str[i] == ciph[14])
+          str[i] = 79;
+       else if (str[i] == ciph[15])
+          str[i] = 80;
+       else if (str[i] == ciph[16])
+          str[i] = 81;
+       else if (str[i] == ciph[17])
+          str[i] = 82;
+       else if (str[i] == ciph[18])
+          str[i] = 83;
+       else if (str[i] == ciph[19])
+          str[i] = 84;
+       else if (str[i] == ciph[20])
+          str[i] = 85;
+       else if (str[i] == ciph[21])
+          str[i] = 86;
+       else if (str[i] == ciph[22])
+          str[i] = 87;
+       else if (str[i] == ciph[23])
+          str[i] = 88;
+       else if (str[i] == ciph[24])
+          str[i] = 89;
+       else if (str[i] == ciph[25])
+          str[i] = 90;
+                                    }
+                       }
+          printf("Decrypted String: %s\n", str); //After the loop executes for each character, the string decryption is printed.
+                    }
+                    }
+
+return 0; 
+}
